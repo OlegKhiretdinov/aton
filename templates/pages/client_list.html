@@ -1,0 +1,57 @@
+{% extends "main_layout.html" %}
+{% block head %}
+<link type="text/css" href="{{ url_for('static', filename='styles/clients_list.css') }}" rel="stylesheet" />
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/clientsList.js') }}" ></script>
+{% endblock %}
+{% block title %}Список клиентов{% endblock %}
+{% block header %}
+    {% if session['user'] %}
+        <div>
+            {{ session['user']['name'] }}
+        </div>
+        <form action="/logout" method="post">
+            <input class="btn logout" type="submit" value="Выйти" />
+        </form>
+    {% endif %}
+{% endblock %}
+{% block main %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert" >{{ message }}</div>
+            {% endfor %}
+       {% endif %}
+    {% endwith %}
+<h1>Список клиентов</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Номер счета</th>
+            <th>ФИО</th>
+            <th>Дата рождения</th>
+            <th>ИНН</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for item in clients_list%}
+            <tr>
+                <td>{{item.account_number}}</td>
+                <td>{{item.surname}} {{item.name}} {{item.middle_name}}</td>
+                <td>{{item.birthday}}</td>
+                <td>{{item.inn}}</td>
+                <td>
+                    <select disabled="disabled" name="status" class="editable_field" data-client-id="{{item.account_number}}">
+                        <option selected disabled value="not_at_work">Не в работе</option>
+                        <option {% if item.status == 'in_progress' %} selected {% endif %} value="in_progress">В работе</option>
+                        <option {% if item.status == 'refusal' %} selected {% endif %} value="refusal">Отказ</option>
+                        <option {% if item.status == 'deal_is_closed' %} selected {% endif %} value="deal_is_closed">Сделка закрыта</option>
+                    </select>
+                    <div class="edit">изменить</div>
+                </td>
+            </tr>
+        {%endfor%}
+    </tbody>
+</table>
+{% include 'pagination.html' %}
+{% endblock %}

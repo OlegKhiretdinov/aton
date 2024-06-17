@@ -1,0 +1,7 @@
+.idea
+.venv
+__pycache__
+
+.env
+fake_employee.txt
+db.sqlite3

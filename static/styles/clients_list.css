@@ -1,0 +1,19 @@
+select[disabled] {
+    border: none;
+    appearance: none;
+    font-size: 15px;
+    color: black;
+}
+
+div.edit {
+    cursor: pointer;
+    color: #3838e1;
+}
+
+div.edit.block {
+    cursor: not-allowed;
+}
+
+input.logout{
+    min-width: auto;
+}

@@ -1,0 +1,19 @@
+{% if paginator.pages_count > 1 %}
+    <div class="pagination">
+        {% if paginator.current_page > 1 %}
+            <a href="?page=1&limit={{paginator.limit}}">&laquo;</a>
+        {% endif %}
+
+        {% for p in range(1, paginator.pages_count + 1) %}
+            {% if p == paginator.current_page %}
+                <span class="current">{{p}}</span>
+            {% elif p >= paginator.current_page - 2 and p <= paginator.current_page + 2 %}
+                <a href="?page={{ p }}&limit={{paginator.limit}}">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if paginator.current_page < paginator.pages_count %}
+            <a href="?page={{ paginator.pages_count }}&limit={{paginator.limit}}">&raquo;</a>
+        {% endif %}
+    </div>
+{% endif %}
